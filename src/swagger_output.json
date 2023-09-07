@@ -1,0 +1,635 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "HOUSING APP API",
+    "description": "Housing app using the microservices. this api gateway all microservices like users , property & chat "
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/user/signup": {
+      "post": {
+        "description": "signup user + verify user opt send on mail",
+        "tags": ["USER MICROSERVICES"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "John Smith"
+                },
+                "email": {
+                  "example": "john@gmail.com"
+                },
+                "password": {
+                  "example": "john@123"
+                },
+                "phone_no": {
+                  "example": "9999054321"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/owner/signup": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "signup owner + verify user opt send on mail",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "John Smith"
+                },
+                "email": {
+                  "example": "john@gmail.com"
+                },
+                "password": {
+                  "example": "john@123"
+                },
+                "phone_no": {
+                  "example": "9999054321"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "login user",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "john@gmail.com"
+                },
+                "password": {
+                  "example": "john@123"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/owner/login": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "login owner",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "john@gmail.com"
+                },
+                "password": {
+                  "example": "john@123"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/user/view-restrict": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "restrict the user after contacting 10 property owners/broker and show subscription plan if not subscribed",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "property_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/logout/user": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "logout user /owner",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/newtoken": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "generate the acess token by using the referace token ",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/owner/post": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "post add on property collection",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "example": "Noida"
+                },
+                "price": {
+                  "example": "2000"
+                },
+                "type": {
+                  "example": "2bhk"
+                },
+                "size": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "available"
+                },
+                "posted_by": {
+                  "example": "owner"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/property/pic": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "add property pic in property table ",
+        "security": [{ "bearerAuth": [] }],
+        "summary": "Upload an image",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "image",
+            "type": "file",
+            "description": "The image file to upload"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/add/subscription": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "add subscription plan in subscription collection",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "example": "3000"
+                },
+                "name": {
+                  "example": "gold subscription"
+                },
+                "offers": {
+                  "example": "20%"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/user/subscription": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "user subscribe the subcription paln ",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "example": "3000"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/subscription/show": {
+      "get": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": "show the subscription plan"
+          }
+        }
+      }
+    },
+    "/subscription/revoke": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "revoke the subcription plan",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "john@gmail.com"
+                },
+                "amount": {
+                  "example": "3000"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/otp-send": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "verify user opt send on mail",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/verify": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "verify user ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "john@gmail.com"
+                },
+                "verify_otp": {
+                  "example": "2523"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/owner/verify": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "verify owner",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "john@gmail.com"
+                },
+                "verify_otp": {
+                  "example": "2345"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/wishlist-show": {
+      "get": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "show the wishlisted property",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/wishlisted": {
+      "post": {
+        "tags": ["USER MICROSERVICES"],
+        "description": "user wishlisted the property ",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "property_id": {
+                  "example": "sd24fv34"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+
+    "/property/post": {
+      "post": {
+        "tags": ["PROPERTY MICROSERVICES"],
+
+        "description": "add property in property table by using end point of 'owner/post'",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/property/pic-add": {
+      "post": {
+        "tags": ["PROPERTY MICROSERVICES"],
+        "description": "add propety pic ",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/property/show": {
+      "get": {
+        "tags": ["PROPERTY MICROSERVICES"],
+        "description": "show all property",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/property/status": {
+      "get": {
+        "tags": ["PROPERTY MICROSERVICES"],
+        "description": "show the property status (rented or not) ",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/wishlist": {
+      "post": {
+        "tags": ["PROPERTY MICROSERVICES"],
+        "description": "add the wishlisted property",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "property_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/property/report": {
+      "post": {
+        "tags": ["PROPERTY MICROSERVICES"],
+        "description": "report the fake or sold property ",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "property_id": {
+                  "example": "any"
+                },
+                "flag": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/property/sort": {
+      "get": {
+        "tags": ["PROPERTY MICROSERVICES"],
+        "description": "fetch filters based on(Price, available, flat type(2bhk, 3bhk), listed by owner/broker).",
+        "parameters": [
+          {
+            "name": "price",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "posted_by",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/start-chat": {
+      "post": {
+        "tags": ["CHAT MICROSERVICES"],
+
+        "description": "chat user with owner/broker",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "example": "Aman"
+                },
+                "reciver": {
+                  "example": "John"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/connected": {
+      "get": {
+        "tags": ["CHAT MICROSERVICES"],
+
+        "description": " show how many users already contacted the broker/owner",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  }
+}
